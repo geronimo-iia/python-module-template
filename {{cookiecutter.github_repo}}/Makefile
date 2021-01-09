@@ -78,10 +78,10 @@ $(DIST_FILES): $(MODULES) pyproject.toml
 
 .PHONY: publish
 publish: build ## Publishes the package, previously built with the build command, to the remote repository
-	@git diff --name-only --exit-code
+	git diff --name-only --exit-code
 	poetry publish
-	@PROJECT_RELEASE=$$(poetry run python -c "import {{cookiecutter.package_name}}; print({{cookiecutter.package_name}}.__version__);") && \
-		git tag "v$$PROJECT_RELEASE" && \
+	@PROJECT_RELEASE=$$(poetry run python -c "import {{cookiecutter.package_name}}; print({{cookiecutter.package_name}}.__version__);") ; \
+		git tag "v$$PROJECT_RELEASE" ; \
 		git push origin "v$$PROJECT_RELEASE"
 	@echo "open https://pypi.org/project/{{cookiecutter.package_name}}"
 
@@ -89,19 +89,17 @@ publish: build ## Publishes the package, previously built with the build command
 
 .PHONY: docs
 docs:  ## Build and publish sit documentation.
-	@rm -rf docs/
-	@rm -rf $(SPHINX_BUILD_DIR)/
-	@mkdir -p $(SPHINX_BUILD_DIR)
-	@poetry run sphinx-build -M html "sphinx" "$(SPHINX_BUILD_DIR)"
-	@mv $(SPHINX_BUILD_DIR)/html docs/
-	@touch docs/.nojekyll
+	@rm -rf docs/ $(SPHINX_BUILD_DIR)/ ; \
+		mkdir -p $(SPHINX_BUILD_DIR) ; \
+		poetry run sphinx-build -M html "sphinx" "$(SPHINX_BUILD_DIR)" ; \
+		mv $(SPHINX_BUILD_DIR)/html docs/ ; \
+		touch docs/.nojekyll
 
 
 # CLEANUP #####################################################################
 
 .PHONY: clean
 clean:  ## Delete all generated and temporary files
-	@rm -rf *.spec dist build .eggs *.egg-info .install 
-	@rm -rf .cache .coverage htmlcov .mypy_cache .pytest_cache
+	@rm -rf *.spec dist build .eggs *.egg-info .install .cache .coverage htmlcov .mypy_cache .pytest_cache
 	@find $(PACKAGES) -name '__pycache__' -delete
-	@rm -rf *.egg-info
+
