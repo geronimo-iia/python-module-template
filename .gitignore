@@ -1,0 +1,15 @@
+# Virtual environment
+/.venv/
+.venv
+
+# Temporary Python files
+*.pyc
+__pycache__/
+.pytest_cache
+
+.install
+
+# Generated project
+my-project
+
+

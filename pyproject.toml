@@ -1,0 +1,10 @@
+[tool.poetry]
+
+name = "python-module-template"
+version = "1.0.0"
+description = "A template for Python libraries."
+authors = ["Jerome Guibert <jguibert@gmail.com>"]
+
+[tool.poetry.dependencies]
+python= "^3.8"
+cookiecutter = "*"

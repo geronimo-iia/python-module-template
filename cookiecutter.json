@@ -1,0 +1,15 @@
+{
+    "project_name": "My Project",
+    "project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
+    "package_name": "{{ cookiecutter.project_slug|replace('-', '_') }}",
+    "full_name": "Jerome Guibert",
+    "email": "jguibert@gmail.com",
+    "github_username": "geronimo-iia",
+    "github_repo": "{{ cookiecutter.project_slug}}",
+    "project_short_description": "Sample project generated from {{ cookiecutter.github_username}}/github_repo.",
+    "python_major_version": 3,
+    "python_minor_version": 8,
+    "max_code_line_length": 120,
+    "year": "{% now 'utc', '%Y' %}",
+    "_extensions": ["jinja2_time.TimeExtension"]
+  }

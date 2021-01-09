@@ -1,0 +1,23 @@
+dist: xenial
+
+language: python
+python:
+  - "3.8"
+
+cache:
+  pip: true
+
+before_install:
+  - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+  - source $HOME/.poetry/env
+
+install:
+  - make install
+
+script:
+  - make ci
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
