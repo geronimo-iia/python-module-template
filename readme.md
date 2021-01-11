@@ -1,5 +1,8 @@
 # A python module template
 
+[![Travis Build Status](https://img.shields.io/travis/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}}/master.svg?label=unix)](https://travis-ci.com/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}})
+
+
 This is a [cookiecutter](https://github.com/cookiecutter/cookiecutter) template for a typical Python library following modern packaging conventions.
 
 It utilizes popular libraries to fully automate all development and deployment tasks.
