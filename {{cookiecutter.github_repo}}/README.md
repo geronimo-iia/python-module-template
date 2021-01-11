@@ -2,7 +2,7 @@
 
 
 [![Travis Build Status](https://img.shields.io/travis/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}}/master.svg?label=unix)](https://travis-ci.com/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}})
-[![codecov](https://codecov.io/gh/geronimo-iia/async-btree/branch/master/graph/badge.svg?token=SXD9Z508CA)](https://codecov.io/gh/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}})
+[![Codecov](https://codecov.io/gh/geronimo-iia/async-btree/branch/master/graph/badge.svg?token=SXD9Z508CA)](https://codecov.io/gh/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}})
 [![PyPI Version](https://img.shields.io/pypi/v/{{cookiecutter.github_repo}}.svg)](https://pypi.org/project/{{cookiecutter.github_repo}})
 [![PyPI License](https://img.shields.io/pypi/l/{{cookiecutter.github_repo}}.svg)](https://pypi.org/project/{{cookiecutter.github_repo}})
 
