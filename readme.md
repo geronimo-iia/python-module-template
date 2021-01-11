@@ -20,13 +20,13 @@ All tooling are configured using `pyproject.toml`, we wanna avoid the mess of co
   * [poetry](https://python-poetry.org/) to rules them all
   * [pep-0518](https://www.python.org/dev/peps/pep-0518/) alias `pyproject.toml` for managing dependencies, package metadata, ...
 * Project tooling:
-  * Formatting with [isort]() and [black]()
-  * Analysing with [flake8]()
+  * Formatting with [isort](https://github.com/PyCQA/isort) and [black](https://github.com/psf/black)
+  * Analysing with [flake8](https://flake8.pycqa.org/en/latest/)
   * Type checking with `mypy`
   * Running tests with `pytest`
 * Preconfigured setup for:
   * `Makefile` for automating common development tasks
-  * [Github workflow]()
+  * [Github workflow](https://guides.github.com/introduction/flow/)
   * [Travis CI](https://travis-ci.org/),
   * [Coveralls](https://coveralls.io/)
 * Documentation:
