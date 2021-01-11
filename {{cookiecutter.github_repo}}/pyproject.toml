@@ -19,8 +19,7 @@ classifiers = [
     "Programming Language :: Python :: {{cookiecutter.python_major_version}}",
     "Programming Language :: Python :: {{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}}",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Typing :: Typed"
-]
+    "Typing :: Typed"]
 
 [tool.poetry.dependencies]
 python = "^{{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}}"
@@ -91,7 +90,7 @@ exclude_lines =[
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--strict-markers --pdbcls=tests:Debugger -r sxX --cov=c4_model --cov-report=html --cov-report=term-missing:skip-covered"
+addopts = "--strict-markers --pdbcls=tests:Debugger -r sxX --cov={{cookiecutter.package_name}} --cov-report=html --cov-report=term-missing:skip-covered"
 
 [tool.flakehell]
 exclude = ["README.md"]
