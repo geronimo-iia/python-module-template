@@ -6,7 +6,8 @@ GENERATED_PROJECT := my-project
 .PHONY: ci
 ci: build ## CI Build: Test Sample
 	make install -C $(GENERATED_PROJECT)
-	make ci -C $(GENERATED_PROJECT)
+	make test -C $(GENERATED_PROJECT)
+	make check -C $(GENERATED_PROJECT)
 
 # DEPENDENCIES #################################################################
 
