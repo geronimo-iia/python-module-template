@@ -1,6 +1,6 @@
 # A python module template
 
-[![Travis Build Status](https://img.shields.io/travis/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}}/master.svg?label=unix)](https://travis-ci.com/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}})
+[![Travis Build Status](https://img.shields.io/travis/geronimo-iia/python-module-template/master.svg?label=unix)](https://travis-ci.com/geronimo-iia/python-module-template.svg?branch=master)
 
 
 This is a [cookiecutter](https://github.com/cookiecutter/cookiecutter) template for a typical Python library following modern packaging conventions.
