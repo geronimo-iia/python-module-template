@@ -15,9 +15,6 @@ SPHINX_BUILD_DIR = .cache/sphinx
 .PHONY: all
 all: install
 
-.PHONY: ci
-ci: check test ## Run all tasks that determine CI status
-
 .PHONY: debug-info
 debug-info:  ## Show poetry debug info
 	poetry debug:info

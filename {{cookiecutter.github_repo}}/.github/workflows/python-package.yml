@@ -37,3 +37,7 @@ jobs:
       run: make check
     - name: Test Python package
       run: make test
+    - name: "Upload coverage to Codecov"
+      uses: codecov/codecov-action@v1
+      with:
+        fail_ci_if_error: true

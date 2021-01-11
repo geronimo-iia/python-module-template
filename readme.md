@@ -20,7 +20,7 @@ All tooling are configured using `pyproject.toml`, we wanna avoid the mess of co
   * [poetry](https://python-poetry.org/) to rules them all
   * [pep-0518](https://www.python.org/dev/peps/pep-0518/) alias `pyproject.toml` for managing dependencies, package metadata, ...
 * Project tooling:
-  * Formatting with [isort](https://github.com/PyCQA/isort) and [black](https://github.com/psf/black)
+  * Setup formatting with [isort](https://github.com/PyCQA/isort) and [black](https://github.com/psf/black)
   * Analysing with [flake8](https://flake8.pycqa.org/en/latest/)
   * Type checking with `mypy`
   * Running tests with `pytest`
@@ -28,7 +28,7 @@ All tooling are configured using `pyproject.toml`, we wanna avoid the mess of co
   * `Makefile` for automating common development tasks
   * [Github workflow](https://guides.github.com/introduction/flow/)
   * [Travis CI](https://travis-ci.org/),
-  * [Coveralls](https://coveralls.io/)
+  * [Codecov](https://codecov.io)
 * Documentation:
   * Docstring styling with `pydocstyle`
   * Building documentation with `sphinx`
@@ -53,7 +53,6 @@ Make Target list:
 | Name                 | Comment                                                                                  |
 | -------------------- | ---------------------------------------------------------------------------------------- |
 |                      |                                                                                          |
-| ci                   | Run all tasks that determine CI status                                                   |
 | debug-info           | Show poetry debug info                                                                   |
 | install              | Install project dependencies                                                             |
 | check                | Run linters and static analysis                                                          |

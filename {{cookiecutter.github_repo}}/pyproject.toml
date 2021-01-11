@@ -48,7 +48,6 @@ mypy = "*"
 pytest = "^6" # pytest: simple powerful testing with Python
 pytest-cov = "^2" # Pytest plugin for measuring coverage.
 pytest-mock = "^3"
-coverage = {version = "^5", extras = ["toml"]} # Code coverage measurement for Python
 xdoctest = "^0.15.0" # A rewrite of the builtin doctest module
 
 # Documentation

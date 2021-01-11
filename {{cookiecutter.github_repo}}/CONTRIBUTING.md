@@ -14,7 +14,7 @@ You will need:
 * Python {{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}}"+
 * [Pyenv](https://github.com/pyenv/pyenv#installation)
 * [poetry](https://python-poetry.org/)
-* Make with find, sed
+* Make
 
 
 ### Make Installation
@@ -77,10 +77,18 @@ So here, few detail of my installation.
     ```
     ```poetry shell``` will activate project virtual environment.
 
-## Release Tasks
 
-Release to PyPI:
+## Make Target list
 
-```text
-$ make publish
-```
+| Name                 | Comment                                                                                  |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+|                      |                                                                                          |
+| debug-info           | Show poetry debug info                                                                   |
+| install              | Install project dependencies                                                             |
+| check                | Run linters and static analysis                                                          |
+| test                 | Run unit tests                                                                           |
+| build                | Builds the source and wheels archives                                                    |
+| publish              | Publishes the package, previously built with the build command, to the remote repository |
+| docs                 | Build and publish sit documentation.                                                     |
+| clean                | Delete all generated and temporary files                                                 |
+|                      |                                                                                          |
