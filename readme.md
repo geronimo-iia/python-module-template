@@ -28,8 +28,7 @@ All tooling are configured using `pyproject.toml`, we wanna avoid the mess of co
   * `Makefile` for automating common development tasks
   * [Github workflow]()
   * [Travis CI](https://travis-ci.org/),
-  * [Coveralls](https://coveralls.io/) (optional),
-  * [Scrutinizer](https://scrutinizer-ci.com/) (optional)
+  * [Coveralls](https://coveralls.io/)
 * Documentation:
   * Docstring styling with `pydocstyle`
   * Building documentation with `sphinx`
