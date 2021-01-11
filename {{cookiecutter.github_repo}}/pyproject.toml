@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "{{cookiecutter.package_name}}"
-version = "0.0.1"
+version = "{{cookiecutter.version}}"
 description = "{{cookiecutter.project_short_description}}"
 license = "MIT"
 authors = ["{{cookiecutter.full_name}} <{{cookiecutter.email}}>"]
