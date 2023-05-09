@@ -2,13 +2,12 @@ name: Python package
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   POETRY_VIRTUALENVS_CREATE: false
-
 
 jobs:
   build:
