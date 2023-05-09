@@ -8,7 +8,8 @@ MODULES := $(wildcard $(PACKAGE)/*.py)
 .DEFAULT_GOAL := help
 FAILURES := .pytest_cache/v/cache/lastfailed
 DIST_FILES := dist/*.tar.gz dist/*.whl
-SPHINX_BUILD_DIR = .cache/sphinx
+
+GIT_COMMIT_SHA := $(shell git rev-parse HEAD)
 
 # MAIN TASKS ##################################################################
 
@@ -28,21 +29,31 @@ help: all
 install: .install .cache ## Install project dependencies
 
 .install: poetry.lock
-	poetry install
+	$(MAKE) configure
 	poetry check
 	@touch $@
 
 poetry.lock: pyproject.toml
+	$(MAKE) configure
 	poetry lock
+	poetry install
+	$(MAKE) requirements.txt
 	@touch $@
 
 .cache:
 	@mkdir -p .cache
 
+.PHONY: requirements.txt
 requirements.txt: poetry.lock ## Generate requirements.txt and requirements-dev.txt
 	poetry export --without-hashes -f requirements.txt > requirements.txt
+	sed '1d' requirements.txt
 	poetry export --without-hashes --dev -f requirements.txt > requirements-dev.txt
 
+
+.PHONY: configure
+configure:
+	@poetry config virtualenvs.in-project true
+	@poetry run python -m pip install --upgrade pip
 
 # CHECKS ######################################################################
 
@@ -50,7 +61,7 @@ requirements.txt: poetry.lock ## Generate requirements.txt and requirements-dev.
 check: install   ## Run linters and static analysis
 	poetry run isort $(PACKAGES)
 	poetry run black $(PACKAGES)
-	poetry run flakehell lint $(PACKAGE)
+	poetry run ruff check $(PACKAGE)
 	poetry run mypy --show-error-codes --config-file pyproject.toml $(PACKAGE)
 
 # TESTS #######################################################################
@@ -60,7 +71,6 @@ test: install ## Run unit tests
 	@if test -e $(FAILURES); then poetry run pytest tests --last-failed --exitfirst; fi
 	@rm -rf $(FAILURES)
 	poetry run pytest
-
 
 
 # BUILD #######################################################################
@@ -75,22 +85,43 @@ $(DIST_FILES): $(MODULES) pyproject.toml
 
 .PHONY: publish
 publish: build ## Publishes the package, previously built with the build command, to the remote repository
-	git diff --name-only --exit-code
+	$(MAKE) configure
 	poetry publish
-	@PROJECT_RELEASE=$$(poetry run python -c "import {{cookiecutter.package_name}}; print({{cookiecutter.package_name}}.__version__);") ; \
+	$(MAKE) tag
+
+
+.PHONY: next-patch-version
+next-patch-version:  ## Increment patch version
+	$(MAKE) configure
+	git checkout main
+	git pull
+	poetry version patch
+	$(MAKE) install
+	git add .
+	git commit -m "Next version"
+	git push origin main
+
+
+.PHONY: tag
+tag:  ## Tags current repository
+	git diff --name-only --exit-code
+	@PROJECT_RELEASE=$$(poetry version | awk 'END {print $$NF}') ; \
 		git tag "v$$PROJECT_RELEASE" ; \
 		git push origin "v$$PROJECT_RELEASE"
-	@echo "open https://pypi.org/project/{{cookiecutter.package_name}}"
+
+.PHONY: release
+release: publish next-patch-version
 
 # DOC #########################################################################
 
-.PHONY: docs
-docs:  ## Build and publish sit documentation.
-	@rm -rf docs/ $(SPHINX_BUILD_DIR)/ ; \
-		mkdir -p $(SPHINX_BUILD_DIR) ; \
-		poetry run sphinx-build -M html "sphinx" "$(SPHINX_BUILD_DIR)" ; \
-		mv $(SPHINX_BUILD_DIR)/html docs/ ; \
-		touch docs/.nojekyll
+.PHONY: build-docs
+build-docs:  ## Build and publish sit documentation.
+	@poetry run mkdocs build --clean
+
+
+.PHONY: publish-docs
+publish-docs:  ## Build and publish sit documentation.
+	@poetry run mkdocs gh-deploy  --clean 
 
 
 # CLEANUP #####################################################################
@@ -98,5 +129,5 @@ docs:  ## Build and publish sit documentation.
 .PHONY: clean
 clean:  ## Delete all generated and temporary files
 	@rm -rf *.spec dist build .eggs *.egg-info .install .cache .coverage htmlcov .mypy_cache .pytest_cache
-	@find $(PACKAGES) -name '__pycache__' -delete
+	@find $(PACKAGES) -type d -name '__pycache__' -exec rm -rf {} +
 

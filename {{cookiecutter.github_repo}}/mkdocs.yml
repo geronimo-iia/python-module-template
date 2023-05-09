@@ -1,0 +1,25 @@
+site_name: {{cookiecutter.project_name}}
+repo_url: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}}
+repo_name: {{cookiecutter.github_username}}/{{cookiecutter.github_repo}}
+
+theme:
+  name: "material"
+  features:
+    - navigation.tracking
+    - navigation.path
+    - navigation.instant
+
+
+plugins:
+  - include-markdown
+  - mkdocstrings
+  - search
+
+nav:
+  - index.md
+  - reference.md
+  - changelog.md
+  - license.md
+  - contributing.md
+  - code_of_conduct.md
+

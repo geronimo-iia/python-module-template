@@ -80,15 +80,16 @@ So here, few detail of my installation.
 
 ## Make Target list
 
-| Name                 | Comment                                                                                  |
-| -------------------- | ---------------------------------------------------------------------------------------- |
-|                      |                                                                                          |
-| debug-info           | Show poetry debug info                                                                   |
-| install              | Install project dependencies                                                             |
-| check                | Run linters and static analysis                                                          |
-| test                 | Run unit tests                                                                           |
-| build                | Builds the source and wheels archives                                                    |
-| publish              | Publishes the package, previously built with the build command, to the remote repository |
-| docs                 | Build and publish sit documentation.                                                     |
-| clean                | Delete all generated and temporary files                                                 |
-|                      |                                                                                          |
+| Name         | Comment                                                                                  |
+|--------------|------------------------------------------------------------------------------------------|
+|              |                                                                                          |
+| debug-info   | Show poetry debug info                                                                   |
+| install      | Install project dependencies                                                             |
+| check        | Run linters and static analysis                                                          |
+| test         | Run unit tests                                                                           |
+| build        | Builds the source and wheels archives                                                    |
+| build-docs   | Builds  site documentation.                                                              |
+| publish      | Publishes the package, previously built with the build command, to the remote repository |
+| publish-docs | Build and publish site documentation.                                                    |
+| clean        | Delete all generated and temporary files                                                 |
+|              |                                                                                          |

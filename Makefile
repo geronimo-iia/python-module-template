@@ -14,11 +14,20 @@ ci: build ## CI Build: Test Sample
 install: .install ## Install project
 
 .install: poetry.lock
+	$(MAKE) configure
 	poetry install
 	@touch $@
 
 poetry.lock: pyproject.toml
+	$(MAKE) configure
 	poetry lock
+
+
+.PHONY: configure
+configure:
+	@poetry config virtualenvs.in-project true
+	poetry run python -m pip install --upgrade pip
+
 
 # BUILD ########################################################################
 
@@ -40,7 +49,7 @@ generate: clean install
 
 .PHONY: clean
 clean: ## Delete all generated and temporary files
-	rm -rf $(GENERATED_PROJECT)
+	@rm -rf $(GENERATED_PROJECT)
 
 # HELP ########################################################################
 
