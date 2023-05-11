@@ -49,28 +49,26 @@ mkdocs-include-markdown-plugin = "^4.0.4"
 [tool.black]
 # see https://black.readthedocs.io/en/stable/
 line_length = {{cookiecutter.max_code_line_length}}
-
-target-version = [
-    "py{{cookiecutter.python_major_version}}{{cookiecutter.python_minor_version}}",
-]
+target-version = ["py{{cookiecutter.python_major_version}}{{cookiecutter.python_minor_version}}"]
 skip-string-normalization = true
+
 [tool.isort]
 # see https://timothycrosley.github.io/isort/
 line_length = {{cookiecutter.max_code_line_length}}
-
-
 combine_as_imports = true
 multi_line_output = 3
 include_trailing_comma = true
 use_parentheses = true
 force_grid_wrap = 0
 ensure_newline_before_comments = true
+
 [tool.coverage.paths]
 source = ["{{cookiecutter.package_name}}"]
 
 [tool.coverage.run]
 # see https://coverage.readthedocs.io/en/coverage-5.0.3/config.html
 branch = true
+data_file = ".cache/coverage"
 source = ["{{cookiecutter.package_name}}"]
 omit = ["tests/*", ".venv/*", "*/__main__.py"]
 
@@ -81,12 +79,14 @@ exclude_lines = ["pragma: no cover", "raise NotImplementedError"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--strict-markers --pdbcls=tests:Debugger -r sxX --cov={{cookiecutter.package_name}} --cov-report=html --cov-report=term-missing:skip-covered"
-
+cache_dir = ".cache"
 
 [tool.ruff]
+cache-dir = ".cache/ruff"
 line-length = {{cookiecutter.max_code_line_length}}
 
-[mypy]
+[tool.mypy]
+cache_dir = ".cache/mypy/"
 check_untyped_defs = true
 ignore_errors = false
 ignore_missing_imports = true
