@@ -24,6 +24,8 @@ In 2023, 4 year ever, python is always my favorite language (even if I start wor
 
 - Documentation is always/often a painfull point. I had used a lot Sphinx, really like it, but mkdocs just do my things in a very simple way. So let's choose this way.
 - flakehell could be replaced by ruff. Less configuration, and quicker so...
+- add github action for check current change on build
+- automate github release, publish on pypi, site documentation on a tag.
 
 
 ## Features
@@ -38,7 +40,12 @@ In 2023, 4 year ever, python is always my favorite language (even if I start wor
   * Running tests with `pytest`
 * Preconfigured setup for:
   * `Makefile` for automating common development tasks
-  * [Github workflow](https://guides.github.com/introduction/flow/)
+  * [Github workflow](https://guides.github.com/introduction/flow/):
+    * 'package': launch an install/test/check on each push and pull request on 'main' branch.
+    * 'release": on each tag push, launch:
+      - a github release 
+      - a pypi publish . You have to configure a secret 'PYPI_TOKEN' in your git repository.
+      - a site documentation publication
 * Documentation:
   * Docstring styling with `pydocstyle`
   * Building documentation with `mkdocs`
