@@ -54,6 +54,7 @@ requirements.txt: poetry.lock ## Generate requirements.txt and requirements-dev.
 configure:
 	@poetry config virtualenvs.in-project true
 	@poetry run python -m pip install --upgrade pip
+	@poetry run python -m pip install --upgrade setuptools
 
 # CHECKS ######################################################################
 
