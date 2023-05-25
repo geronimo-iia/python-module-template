@@ -44,10 +44,9 @@ poetry.lock: pyproject.toml
 	@mkdir -p .cache
 
 .PHONY: requirements.txt
-requirements.txt: poetry.lock ## Generate requirements.txt and requirements-dev.txt
+requirements.txt: poetry.lock ## Generate requirements.txt
 	@poetry export --without-hashes -f requirements.txt > requirements.txt
 	@sed '1d' requirements.txt
-	@poetry export --without-hashes --dev -f requirements.txt > requirements-dev.txt
 
 
 .PHONY: configure
