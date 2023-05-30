@@ -30,14 +30,14 @@ jobs:
         run: make install 
       - run: poetry config pypi-token.pypi "{{ '${{ secrets.PYPI_TOKEN }}' }}"
       - name: Build and publish to pypi
-        run: make publish --build
+        run: make publish
       - name: Build and publish Documentation
         run: make publish-docs
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: {{ '${{ secrets.PYPI_TOKEN }}' }}
+          GITHUB_TOKEN: {{ '${{ secrets.GITHUB_TOKEN }}' }}
         with:
           tag_name: {{ '${{ github.ref }}' }}
           release_name: Release {{ '${{ github.ref }}' }}
