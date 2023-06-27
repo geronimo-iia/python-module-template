@@ -115,6 +115,7 @@ release: publish next-patch-version
 
 .PHONY: build-docs
 build-docs:  ## Build and publish sit documentation.
+	@git fetch origin  gh-pages
 	@poetry run mkdocs build --clean
 
 
