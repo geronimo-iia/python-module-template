@@ -8,3 +8,4 @@ authors = ["Jerome Guibert <jguibert@gmail.com>"]
 [tool.poetry.dependencies]
 python = ">=3.8,<3.12"
 cookiecutter = "*"
+jinja2-time = "^0.2.0"

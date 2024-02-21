@@ -229,6 +229,21 @@ MarkupSafe = ">=2.0"
 i18n = ["Babel (>=2.7)"]
 
 [[package]]
+name = "jinja2-time"
+version = "0.2.0"
+description = "Jinja2 Extension for Dates and Times"
+optional = false
+python-versions = "*"
+files = [
+    {file = "jinja2-time-0.2.0.tar.gz", hash = "sha256:d14eaa4d315e7688daa4969f616f226614350c48730bfa1692d2caebd8c90d40"},
+    {file = "jinja2_time-0.2.0-py2.py3-none-any.whl", hash = "sha256:d3eab6605e3ec8b7a0863df09cc1d23714908fa61aa6986a845c20ba488b4efa"},
+]
+
+[package.dependencies]
+arrow = "*"
+jinja2 = "*"
+
+[[package]]
 name = "markdown-it-py"
 version = "3.0.0"
 description = "Python port of markdown-it. Markdown parsing, done right!"
@@ -542,4 +557,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<3.12"
-content-hash = "ef6218c6cd5dd4595e292e0623f32b9dac1d6d7b7dbcf0f980a9e6b390d80213"
+content-hash = "e27a44ae9641b65fa61df5aaf85341757b38ace313f3eb5f128b9300fc8d2944"
