@@ -15,7 +15,7 @@ install: .install ## Install project
 
 .install: poetry.lock
 	$(MAKE) configure
-	poetry install
+	poetry install --no-root
 	@touch $@
 
 poetry.lock: pyproject.toml

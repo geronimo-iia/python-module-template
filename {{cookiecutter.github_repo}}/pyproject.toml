@@ -23,7 +23,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "~{{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}},<3.12"
+python = ">={{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}},<3.12"
 
 [tool.poetry.dev-dependencies]
 black = "22.3.0"             # The uncompromising code formatter.
