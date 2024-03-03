@@ -67,7 +67,7 @@ In 2024, we still use a lot of command into `makefile`, dependencies can be mana
 Install `cookiecutter` and generate a project:
 
 ```
-$ pip install cookiecutter
+$ pip install cookiecutter jinja2-time
 $ cookiecutter gh:geronimo-iia/python-module-template -f
 ```
 
