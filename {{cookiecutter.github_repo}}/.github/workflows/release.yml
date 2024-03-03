@@ -30,11 +30,11 @@ jobs:
         run: make install 
       - run: poetry config pypi-token.pypi "{{ '${{ secrets.PYPI_TOKEN }}' }}"
       - name: Build and publish to pypi
-        run: poetry poet publish
+        run: poetry poe publish
       - name: Build and publish Documentation
         run: |
-          poetry poet docs
-          poetry poet docs-publish
+          poetry poe docs
+          poetry poe docs-publish
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
