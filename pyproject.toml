@@ -1,7 +1,6 @@
 [tool.poetry]
-
 name = "python-module-template"
-version = "1.1.0"
+version = "1.2.0"
 description = "A template for Python libraries."
 authors = ["Jerome Guibert <jguibert@gmail.com>"]
 
@@ -9,3 +8,7 @@ authors = ["Jerome Guibert <jguibert@gmail.com>"]
 python = ">=3.8,<3.12"
 cookiecutter = "*"
 jinja2-time = "^0.2.0"
+
+[build-system]
+requires = ["poetry>=1.1.12"]
+build-backend = "poetry.masonry.api"
