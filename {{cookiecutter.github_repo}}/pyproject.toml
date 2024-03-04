@@ -106,10 +106,10 @@ warn_unused_configs = true
 
 
 [tool.poe.tasks]
-_isort = "poetry run isort my_project tests"
-_black = "poetry run black my_project tests"
-_ruff = "poetry run ruff check my_project"
-_mypy = "poetry run mypy --show-error-codes --config-file pyproject.toml my_project"
+_isort = "poetry run isort {{cookiecutter.package_name}} tests"
+_black = "poetry run black {{cookiecutter.package_name}} tests"
+_ruff = "poetry run ruff check {{cookiecutter.package_name}}"
+_mypy = "poetry run mypy --show-error-codes --config-file pyproject.toml {{cookiecutter.package_name}}"
 _build = "poetry build"
 _publish = "poetry publish"
 build.help = "Build module"
