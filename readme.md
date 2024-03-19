@@ -4,6 +4,33 @@ This is a [cookiecutter](https://github.com/cookiecutter/cookiecutter) template 
 
 It utilizes popular libraries to fully automate all development and deployment tasks.
 
+
+## Features
+
+* Core:
+  * [poetry](https://python-poetry.org/) to rules them all
+  * [pep-0518](https://www.python.org/dev/peps/pep-0518/) alias `pyproject.toml` for managing dependencies, package metadata, ...
+* Project tooling:
+  * Setup formatting with [isort](https://github.com/PyCQA/isort) and [black](https://github.com/psf/black)
+  * Analysing with [ruff](https://github.com/charliermarsh/ruff)
+  * Type checking with `pyright`
+  * Running tests with `pytest`
+  * [Poe the Poet](https://poethepoet.natn.io/index.html) for automating common development tasks
+* Preconfigured setup for:
+  * [Github workflow](https://guides.github.com/introduction/flow/):
+    * 'package': launch an install/test/check on each push and pull request on 'main' branch.
+    * 'release": on each tag push, launch:
+      - a github release 
+      - a pypi publish . You have to configure a secret 'PYPI_TOKEN' in your git repository.
+      - a site documentation publication
+  * [dependabot](https://github.com/dependabot) to manage dependencies updates.
+* Documentation:
+  * Docstring styling with `pydocstyle`
+  * Building documentation with `mkdocs`
+  * Auto generation of API reference
+  * Expose with documentation site under 'gh-pages' branch per default.
+
+
 ## About this project
 
 In 2019, I worked on [template-python](https://github.com/geronimo-iia/template-python) which was based on [Jace's Python Template](https://github.com/jacebrowning/template-python).
@@ -35,31 +62,7 @@ In 2024, we still use a lot of command into `makefile`, dependencies can be mana
   - `dev` group for all dev tools
   - `docs` group which can be installed with `poetry install --with docs`
 - add option for package mode: set it to false when you want to use Poetry only for dependency management but not for packaging.
-
-## Features
-
-* Core:
-  * [poetry](https://python-poetry.org/) to rules them all
-  * [pep-0518](https://www.python.org/dev/peps/pep-0518/) alias `pyproject.toml` for managing dependencies, package metadata, ...
-* Project tooling:
-  * Setup formatting with [isort](https://github.com/PyCQA/isort) and [black](https://github.com/psf/black)
-  * Analysing with [ruff](https://github.com/charliermarsh/ruff)
-  * Type checking with `mypy`
-  * Running tests with `pytest`
-  * [Poe the Poet](https://poethepoet.natn.io/index.html) for automating common development tasks
-* Preconfigured setup for:
-  * [Github workflow](https://guides.github.com/introduction/flow/):
-    * 'package': launch an install/test/check on each push and pull request on 'main' branch.
-    * 'release": on each tag push, launch:
-      - a github release 
-      - a pypi publish . You have to configure a secret 'PYPI_TOKEN' in your git repository.
-      - a site documentation publication
-  * [dependabot](https://github.com/dependabot) to manage dependencies updates.
-* Documentation:
-  * Docstring styling with `pydocstyle`
-  * Building documentation with `mkdocs`
-  * Auto generation of API reference
-  * Expose with documentation site under 'gh-pages' branch per default.
+- Since python 3.12 and [PEP 696](https://peps.python.org/pep-0696/): I quit [mypy](https://mypy-lang.org/) for [pyright](https://github.com/microsoft/pyright), type checking should never be a pain...
 
 
 ## Usage
