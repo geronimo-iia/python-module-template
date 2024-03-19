@@ -30,14 +30,13 @@ package-mode = false
 
 
 [tool.poetry.dependencies]
-python = ">={{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}},<3.12"
+python = ">={{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}},<4"
 
 [tool.poetry.group.dev.dependencies]
-black = "24.2.0"             # The uncompromising code formatter.
+black = "24.3.0"             # The uncompromising code formatter.
 isort = "5.13.2"              #A Python utility / library to sort Python imports.
-ruff = "^0.2.2"
-mypy = "*"
-types-setuptools = "^69.1.0"
+ruff = "^0.3.3"
+pyright = "^1.1.354"
 
 # Unit Testing
 pytest = "^8"                                   # pytest: simple powerful testing with Python
@@ -52,7 +51,7 @@ optional = true
 [tool.poetry.group.docs.dependencies]
 mkdocs = { extras = ["markdown-include"], version = "^1.5.3" }
 mkdocstrings = { extras = ["python"], version = "^0.24.0" }
-mkdocs-material = "^9.5.11"
+mkdocs-material = "^9.5.14"
 mkdocs-include-markdown-plugin = "^6.0.4"
 
 
@@ -95,29 +94,36 @@ cache_dir = ".cache"
 cache-dir = ".cache/ruff"
 line-length = {{cookiecutter.max_code_line_length}}
 
-[tool.mypy]
-cache_dir = ".cache/mypy/"
-check_untyped_defs = true
-ignore_errors = false
-ignore_missing_imports = true
-warn_unused_ignores = true
-warn_redundant_casts = true
-warn_unused_configs = true
+[tool.pyright]
+include = ["{{cookiecutter.package_name}}"]
+exclude = [
+    "**/node_modules",
+    "**/__pycache__",
+    "{{cookiecutter.package_name}}/experimental",
+    "{{cookiecutter.package_name}}/typestubs"
+]
+ignore = ["tests"]
+defineConstant = { DEBUG = true }
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+pythonVersion = "{{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}}"
+pythonPlatform = "Linux"
 
 
 [tool.poe.tasks]
 _isort = "poetry run isort {{cookiecutter.package_name}} tests"
 _black = "poetry run black {{cookiecutter.package_name}} tests"
 _ruff = "poetry run ruff check {{cookiecutter.package_name}}"
-_mypy = "poetry run mypy --show-error-codes --config-file pyproject.toml {{cookiecutter.package_name}}"
+pyright = "poetry run pyright"
 _build = "poetry build"
 _publish = "poetry publish"
 build.help = "Build module"
 build.sequence = ["check", "test", "_build"]
 publish.help = "Publish module"
 publish.sequence = ["build", "_publish"]
-check.help = "Run Linter"
-check.sequence = ["_isort", "_black", "_ruff", "_mypy"]
+check.help = "Run Linter and type checker"
+check.sequence = ["_isort", "_black", "_ruff", "pyright"]
 
 
 [tool.poe.tasks.test]
@@ -160,4 +166,4 @@ build-backend = "poetry.core.masonry.api"
 
 # Scripts Example
 #[tool.poetry.scripts]
-#rascal = "{{cookiecutter.package_name}}.cli:main"
+#my-cli = "{{cookiecutter.package_name}}.cli:main"
