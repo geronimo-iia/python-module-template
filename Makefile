@@ -26,7 +26,8 @@ poetry.lock: pyproject.toml
 .PHONY: configure
 configure:
 	@poetry config virtualenvs.in-project true
-	poetry run python -m pip install --upgrade pip
+	@poetry run python -m pip install --upgrade pip
+	@poetry run python -m pip install --upgrade setuptools
 
 
 # BUILD ########################################################################

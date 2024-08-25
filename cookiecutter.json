@@ -11,6 +11,5 @@
     "python_minor_version": 8,
     "max_code_line_length": 120,
     "use_package_mode": ["Enabled", "Disabled"],
-    "year": "{% now 'utc', '%Y' %}",
-    "_extensions": ["jinja2_time.TimeExtension"]
+    "year": "2024"
   }

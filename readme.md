@@ -70,8 +70,17 @@ In 2024, we still use a lot of command into `makefile`, dependencies can be mana
 Install `cookiecutter` and generate a project:
 
 ```
-$ pip install cookiecutter jinja2-time
+$ pip install cookiecutter
 $ cookiecutter gh:geronimo-iia/python-module-template -f
+```
+
+or
+
+```
+git clone git@github.com:geronimo-iia/python-module-template.git
+cd python-module-template
+make generate
+
 ```
 
 Cookiecutter will ask you for some basic info (your name, project name, python package name, etc.) and generate a base Python project for you.
