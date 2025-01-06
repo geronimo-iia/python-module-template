@@ -8,7 +8,7 @@
     "version": "0.0.1",
     "project_short_description": "Sample project generated from {{ cookiecutter.github_username}}/github_repo.",
     "python_major_version": 3,
-    "python_minor_version": 8,
+    "python_minor_version": 9,
     "max_code_line_length": 120,
     "use_package_mode": ["Enabled", "Disabled"],
     "year": "2024"
