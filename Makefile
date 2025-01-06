@@ -11,12 +11,9 @@ ci: build ## CI Build: Test Sample
 
 # DEPENDENCIES #################################################################
 
-install: .install ## Install project
-
-.install: poetry.lock
+install: poetry.lock ## Install project
 	$(MAKE) configure
 	poetry install --no-root
-	@touch $@
 
 poetry.lock: pyproject.toml
 	$(MAKE) configure
