@@ -11,8 +11,7 @@ It utilizes popular libraries to fully automate all development and deployment t
   * [poetry](https://python-poetry.org/) to rules them all
   * [pep-0518](https://www.python.org/dev/peps/pep-0518/) alias `pyproject.toml` for managing dependencies, package metadata, ...
 * Project tooling:
-  * Setup formatting with [isort](https://github.com/PyCQA/isort) and [black](https://github.com/psf/black)
-  * Analysing with [ruff](https://github.com/charliermarsh/ruff)
+  * Formatting, Analysing with [ruff](https://github.com/charliermarsh/ruff)
   * Type checking with `pyright`
   * Running tests with `pytest`
   * [Poe the Poet](https://poethepoet.natn.io/index.html) for automating common development tasks
@@ -63,6 +62,14 @@ In 2024, we still use a lot of command into `makefile`, dependencies can be mana
   - `docs` group which can be installed with `poetry install --with docs`
 - add option for package mode: set it to false when you want to use Poetry only for dependency management but not for packaging.
 - Since python 3.12 and [PEP 696](https://peps.python.org/pep-0696/): I quit [mypy](https://mypy-lang.org/) for [pyright](https://github.com/microsoft/pyright), type checking should never be a pain...
+
+In 2025, with the new release of poetry 2.0.0, I wanna make an update:
+
+- use ruff as sucessor of isort and black (less dependency and tools)
+- refactor poe the poet plugin installation with `tool.poetry.requires-plugins`
+- simplify workflow and makefile
+- update pyproject.toml declaration as our Python standard evolve :)
+
 
 
 ## Usage

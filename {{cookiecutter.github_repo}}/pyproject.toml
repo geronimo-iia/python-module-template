@@ -1,13 +1,10 @@
-[tool.poetry]
+[project]
 name = "{{cookiecutter.package_name}}"
 version = "{{cookiecutter.version}}"
 description = "{{cookiecutter.project_short_description}}"
-license = "MIT"
-authors = ["{{cookiecutter.full_name}} <{{cookiecutter.email}}>"]
+authors = [{ name = "{{cookiecutter.full_name}}", email = "{{cookiecutter.email}}" }]
 readme = "README.md"
-homepage = "https://pypi.org/project/{{cookiecutter.package_name}}"
-documentation = "https://{{cookiecutter.github_username}}.github.io/{{cookiecutter.github_repo}}/"
-repository = "https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}}"
+license = "MIT"
 keywords = []
 classifiers = [
     # update this list to match your application: https://pypi.org/pypi?%3Aaction=list_classifiers
@@ -15,12 +12,24 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
+    "Operating System :: OS Independent",
     "Programming Language :: Python",
-    "Programming Language :: Python :: {{cookiecutter.python_major_version}}",
-    "Programming Language :: Python :: {{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}}",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.11",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
+dynamic = ["dependencies", "requires-python"]
+
+
+[project.urls]
+homepage = "https://pypi.org/project/{{cookiecutter.package_name}}"
+documentation = "https://{{cookiecutter.github_username}}.github.io/{{cookiecutter.github_repo}}/"
+repository = "https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}}"
+
+
+[tool.poetry] 
 {% if cookiecutter.use_package_mode == "Enabled" -%}
 packages = [{include = "{{cookiecutter.package_name}}"}]
 {% endif %}
@@ -28,21 +37,21 @@ packages = [{include = "{{cookiecutter.package_name}}"}]
 package-mode = false
 {% endif %}
 
+[tool.poetry.requires-plugins]
+poethepoet = "*"
 
 [tool.poetry.dependencies]
 python = ">={{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}},<4"
 
 [tool.poetry.group.dev.dependencies]
-black = "24.4.2"             # The uncompromising code formatter.
-isort = "5.13.2"              #A Python utility / library to sort Python imports.
-ruff = "^0.5.5"
+ruff = "^0.8.6"
 pyright = "^1.1.354"
 
 # Unit Testing
 pytest = "^8"                                   # pytest: simple powerful testing with Python
 pytest-cov = "^5"                               # Pytest plugin for measuring coverage.
 pytest-mock = "^3"
-xdoctest = "^1.1.5"                            # A rewrite of the builtin doctest module
+xdoctest = "^1.2.0"                            # A rewrite of the builtin doctest module
 coverage = { version = "*", extras = ["toml"] }
 
 [tool.poetry.group.docs]
@@ -50,26 +59,10 @@ optional = true
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = { extras = ["markdown-include"], version = "^1.5.3" }
-mkdocstrings = { extras = ["python"], version = "^0.25.2" }
+mkdocstrings = { extras = ["python"], version = "^0.26.1" }
 mkdocs-material = "^9.5.18"
-mkdocs-include-markdown-plugin = "^6.2.1"
+mkdocs-include-markdown-plugin = "^6.2.2"
 
-
-[tool.black]
-# see https://black.readthedocs.io/en/stable/
-line_length = {{cookiecutter.max_code_line_length}}
-target-version = ["py{{cookiecutter.python_major_version}}{{cookiecutter.python_minor_version}}"]
-skip-string-normalization = true
-
-[tool.isort]
-# see https://timothycrosley.github.io/isort/
-line_length = {{cookiecutter.max_code_line_length}}
-combine_as_imports = true
-multi_line_output = 3
-include_trailing_comma = true
-use_parentheses = true
-force_grid_wrap = 0
-ensure_newline_before_comments = true
 
 [tool.coverage.paths]
 source = ["{{cookiecutter.package_name}}"]
@@ -93,6 +86,35 @@ cache_dir = ".cache"
 [tool.ruff]
 cache-dir = ".cache/ruff"
 line-length = {{cookiecutter.max_code_line_length}}
+indent-width = 4
+target-version = "py{{cookiecutter.python_major_version}}{{cookiecutter.python_minor_version}}"
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+
 
 [tool.pyright]
 include = ["{{cookiecutter.package_name}}"]
@@ -112,19 +134,24 @@ pythonPlatform = "Linux"
 
 
 [tool.poe.tasks]
-_isort = "poetry run isort {{cookiecutter.package_name}} tests"
-_black = "poetry run black {{cookiecutter.package_name}} tests"
-_ruff = "poetry run ruff check {{cookiecutter.package_name}}"
-pyright = "poetry run pyright"
 _build = "poetry build"
 _publish = "poetry publish"
-build.help = "Build module"
-build.sequence = ["check", "test", "_build"]
-publish.help = "Publish module"
-publish.sequence = ["build", "_publish"]
-check.help = "Run Linter and type checker"
-check.sequence = ["_isort", "_black", "_ruff", "pyright"]
 
+
+[tool.poe.tasks.types]
+help = "Run the type checker"
+cmd  = "poetry run pyright"
+
+[tool.poe.tasks.lint]
+help = "Run linting tools on the code base"
+cmd  = "ruff check --fix ."
+
+[tool.poe.tasks.style]
+help = "Validate black code style"
+shell = """
+poetry run ruff check --select I --fix
+poetry run ruff format .
+"""
 
 [tool.poe.tasks.test]
 help = "Run unit tests"
@@ -134,16 +161,29 @@ rm -rf .cache/v/cache/lastfailed &
 poetry run pytest
 """
 
+[tool.poe.tasks.check]
+help     = "Run all checks on the code base"
+sequence = [ "style", "types", "lint", "test"]
+
+
+[tool.poe.tasks.build]
+help  = "Build module"
+sequence = ["check", "_build"]
+
+[tool.poe.tasks.publish]
+help  = "Publish module"
+sequence = ["build", "_publish"]
+
 [tool.poe.tasks.docs]
 help = "Build site documentation"
-shell  = """
+shell = """
 git fetch origin gh-pages &
 poetry run mkdocs build --clean
 """
 
 [tool.poe.tasks.docs-publish]
 help = "Publish site documentation"
-cmd  = """
+cmd = """
 poetry run mkdocs gh-deploy  --clean 
 """
 

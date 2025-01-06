@@ -9,13 +9,13 @@ help: all
 
 # PROJECT DEPENDENCIES ########################################################
 
-install: .install .cache ## Install project dependencies
-
-.install: poetry.lock
+.PHONY: install
+install: configure .cache ## Install project dependencies
 	$(MAKE) configure
+	poetry lock
 	poetry install --with docs
 	poetry check
-	@touch $@
+
 
 poetry.lock: pyproject.toml
 	$(MAKE) configure
@@ -25,12 +25,9 @@ poetry.lock: pyproject.toml
 .cache:
 	@mkdir -p .cache
 
-
 .PHONY: configure
 configure:
 	@poetry config virtualenvs.in-project true
-	@poetry self add poetry-plugin-export
-	@poetry self add 'poethepoet[poetry_plugin]'
 	@poetry run python -m pip install --upgrade pip
 	@poetry run python -m pip install --upgrade setuptools
 
