@@ -28,6 +28,7 @@ Icon*
 *.spec
 .install
 .coverage
+.poetry
 
 # Sublime Text
 *.sublime-workspace
