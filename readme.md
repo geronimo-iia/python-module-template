@@ -95,7 +95,7 @@ $ pip install cookiecutter
 $ cookiecutter gh:geronimo-iia/python-module-template -f
 ```
 
-or
+or using local clone and [uv](https://docs.astral.sh/uv/):
 
 ```
 git clone git@github.com:geronimo-iia/python-module-template.git
