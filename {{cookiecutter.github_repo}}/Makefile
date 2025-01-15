@@ -7,7 +7,7 @@
 install: lock ## Install project dependencies
 	@mkdir -p .cache
 	uv venv
-	uv pip install -r pyproject.toml --extra serializer
+	uv pip install -r pyproject.toml
 
 
 lock: pyproject.toml #codeartifact-index
