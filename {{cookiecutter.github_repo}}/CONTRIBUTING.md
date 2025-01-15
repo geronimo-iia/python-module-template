@@ -39,7 +39,7 @@ Follow [https://github.com/pyenv/pyenv#installation](https://github.com/pyenv/py
 
 UV will manage our dependencies and create our virtual environment for us.
 
-As we use [poethepoet](https://poethepoet.natn.io/), you should define an alias like `alias poe=uv run poe`.
+As we use [poethepoet](https://poethepoet.natn.io/), you should define an alias like `alias poe="uv run poe"`.
 
 
 

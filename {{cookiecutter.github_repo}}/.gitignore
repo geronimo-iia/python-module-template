@@ -29,6 +29,7 @@ Icon*
 .install
 .coverage
 .poetry
+coverage.xml
 
 # Sublime Text
 *.sublime-workspace
