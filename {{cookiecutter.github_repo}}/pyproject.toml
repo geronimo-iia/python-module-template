@@ -37,7 +37,7 @@ repository = "https://github.com/{{cookiecutter.github_username}}/{{cookiecutter
 
 [dependency-groups]
 dev =  [
-    "ruff ~= 0.8.6",
+    "ruff ~= 0.9",
     "pyright ~= 1.1.354",
     "pytest >= 8", # pytest: simple powerful testing with Python
     "pytest-cov >= 5", # Pytest plugin for measuring coverage.
