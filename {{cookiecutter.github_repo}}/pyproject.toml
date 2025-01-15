@@ -4,7 +4,7 @@ version = "{{cookiecutter.version}}"
 description = "{{cookiecutter.project_short_description}}"
 authors = [{ name = "{{cookiecutter.full_name}}", email = "{{cookiecutter.email}}" }]
 readme = "README.md"
-license = "MIT"
+license = {file = "LICENSE.md"}
 keywords = []
 classifiers = [
     # update this list to match your application: https://pypi.org/pypi?%3Aaction=list_classifiers
@@ -15,53 +15,62 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: {{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}}",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
-dynamic = ["dependencies", "requires-python"]
-
+requires-python = ">={{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}},<4"
+dependencies = []
 
 [project.urls]
 homepage = "https://pypi.org/project/{{cookiecutter.package_name}}"
 documentation = "https://{{cookiecutter.github_username}}.github.io/{{cookiecutter.github_repo}}/"
 repository = "https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.github_repo}}"
 
+# Scripts Example
+#[project.scripts]
+#my-cli = "{{cookiecutter.package_name}}.cli:main"
 
-[tool.poetry] 
+# optional depdencies example
+#[project.optional-dependencies]
+#other = ["networkx ~= 3.4.2","pydantic ~=2.6.4"]
+
+[dependency-groups]
+dev =  [
+    "ruff ~= 0.8.6",
+    "pyright ~= 1.1.354",
+    "pytest >= 8", # pytest: simple powerful testing with Python
+    "pytest-cov >= 5", # Pytest plugin for measuring coverage.
+    "pytest-mock >=3",
+    "xdoctest ~=1.2.0", # A rewrite of the builtin doctest module
+    "coverage[toml] >= 7.6.10",
+    "poethepoet >= 0.32.1",
+    "setuptools>=42",
+]
+docs = [
+    "mkdocs~= 1.6",
+    "mkdocs-include-markdown-plugin >= 7.1.2",
+    "mkdocstrings[python] ~= 0.27",
+    "mkdocs-material == 9.*",
+    "mkdocs-include-markdown-plugin ~= 7.1.2"
+]
+
+[tool.setuptools]
+packages = ["{{cookiecutter.package_name}}"]
+
+
+[tool.uv]
 {% if cookiecutter.use_package_mode == "Enabled" -%}
-packages = [{include = "{{cookiecutter.package_name}}"}]
+package = true
+{% endif %}{% if cookiecutter.use_package_mode == "Disabled" -%}
+package = false
 {% endif %}
-{% if cookiecutter.use_package_mode == "Disabled" -%}
-package-mode = false
-{% endif %}
+cache-dir = "./.cache"
+default-groups = ["dev", "docs"]
 
-[tool.poetry.requires-plugins]
-poethepoet = "*"
-
-[tool.poetry.dependencies]
-python = ">={{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}},<4"
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.8.6"
-pyright = "^1.1.354"
-
-# Unit Testing
-pytest = "^8"                                   # pytest: simple powerful testing with Python
-pytest-cov = "^5"                               # Pytest plugin for measuring coverage.
-pytest-mock = "^3"
-xdoctest = "^1.2.0"                            # A rewrite of the builtin doctest module
-coverage = { version = "*", extras = ["toml"] }
-
-[tool.poetry.group.docs]
-optional = true
-
-[tool.poetry.group.docs.dependencies]
-mkdocs = { extras = ["markdown-include"], version = "^1.5.3" }
-mkdocstrings = { extras = ["python"], version = "^0.26.1" }
-mkdocs-material = "^9.5.18"
-mkdocs-include-markdown-plugin = "^6.2.2"
+# example of external source
+#[tool.uv.sources]
+#curio = { git = "https://github.com/dabeaz/curio.git", branch = "master" }
 
 
 [tool.coverage.paths]
@@ -134,31 +143,31 @@ pythonPlatform = "Linux"
 
 
 [tool.poe.tasks]
-_build = "poetry build"
-_publish = "poetry publish"
+_build = "uv build"
+_publish = "uv publish"
 
 
 [tool.poe.tasks.types]
 help = "Run the type checker"
-cmd  = "poetry run pyright"
+cmd  = "uv run pyright"
 
 [tool.poe.tasks.lint]
 help = "Run linting tools on the code base"
-cmd  = "ruff check --fix ."
+cmd  = "uv run ruff check --fix ."
 
 [tool.poe.tasks.style]
 help = "Validate black code style"
 shell = """
-poetry run ruff check --select I --fix
-poetry run ruff format .
+uv run ruff check --select I --fix
+uv run ruff format .
 """
 
 [tool.poe.tasks.test]
 help = "Run unit tests"
 shell = """
-if test -e .cache/v/cache/lastfailed; then poetry run pytest tests --last-failed --exitfirst; fi &
+if test -e .cache/v/cache/lastfailed; then uv run pytest tests --last-failed --exitfirst; fi &
 rm -rf .cache/v/cache/lastfailed &
-poetry run pytest
+uv run pytest
 """
 
 [tool.poe.tasks.check]
@@ -178,32 +187,30 @@ sequence = ["build", "_publish"]
 help = "Build site documentation"
 shell = """
 git fetch origin gh-pages &
-poetry run mkdocs build --clean
+uv run mkdocs build --clean
 """
 
 [tool.poe.tasks.docs-publish]
 help = "Publish site documentation"
 cmd = """
-poetry run mkdocs gh-deploy  --clean 
+uv run mkdocs gh-deploy  --clean 
 """
 
 [tool.poe.tasks.clean]
 help = "Remove all generated and temporary files"
 shell  = """
+uv cache clean
 rm -rf *.spec dist build .eggs *.egg-info .install .cache .coverage htmlcov .mypy_cache .pytest_cache site .ruff_cache &
 find {{cookiecutter.package_name}} tests -type d -name '__pycache__' -exec rm -rf {} +
 """
 
 [tool.poe.tasks.requirements]
 help = "Generate requirements.txt"
-cmd = "poetry export --without-hashes -f requirements.txt "
+cmd = "uv pip compile pyproject.toml -o requirements.txt "
 capture_stdout = "requirements.txt"
 
-
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
 
-# Scripts Example
-#[tool.poetry.scripts]
-#my-cli = "{{cookiecutter.package_name}}.cli:main"
+

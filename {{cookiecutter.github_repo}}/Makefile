@@ -1,54 +1,35 @@
 # const
-.DEFAULT_GOAL := help
-
-# MAIN TASKS ##################################################################
-
-.PHONY: help
-help: all
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+.DEFAULT_GOAL := install
 
 # PROJECT DEPENDENCIES ########################################################
 
 .PHONY: install
-install: configure .cache ## Install project dependencies
-	$(MAKE) configure
-	poetry lock
-	poetry install --with docs
-	poetry check
+install: lock ## Install project dependencies
+	@mkdir -p .cache
+	uv venv
+	uv pip install -r pyproject.toml --extra serializer
 
 
-poetry.lock: pyproject.toml
-	$(MAKE) configure
-	poetry lock
+lock: pyproject.toml #codeartifact-index
+	uv lock
 	@touch $@
 
-.cache:
-	@mkdir -p .cache
 
-.PHONY: configure
-configure:
-	@poetry config virtualenvs.in-project true
-	@poetry run python -m pip install --upgrade pip
-	@poetry run python -m pip install --upgrade setuptools
+# PROJECT PUBLISH ########################################################
 
-# git util #####################################################################
+#.EXPORT_ALL_VARIABLES:
+AWS_DOMAIN="<your-domain>"
+AWS_ACCOUNT_ID="<your-account-id>"
+AWS_REGION="<your-region>"
+AWS_CODEARTIFACT_REPOSITORY="<your-repository>"
+export AWS_CODEARTIFACT_TOKEN="$$(aws codeartifact get-authorization-token --domain $(AWS_DOMAIN) --domain-owner $(AWS_ACCOUNT_ID) --query authorizationToken --output text)"
 
-.PHONY: next-patch-version
-next-patch-version:  ## Increment patch version
-	$(MAKE) configure
-	git checkout main
-	git pull
-	poetry version patch
-	$(MAKE) install
-	git add .
-	git commit -m "Next version"
-	git push origin main
+codeartifact-index:
+	echo 'export UV_EXTRA_INDEX_URL="https://aws:${AWS_CODEARTIFACT_TOKEN}@${AWS_DOMAIN}-${AWS_ACCOUNT_ID}.d.codeartifact.${AWS_REGION}.amazonaws.com/pypi/${AWS_CODEARTIFACT_REPOSITORY}/simple/"'
 
 
-.PHONY: tag
-tag:  ## Tags current repository
-	git diff --name-only --exit-code
-	@PROJECT_RELEASE=$$(poetry version | awk 'END {print $$NF}') ; \
-		git tag "v$$PROJECT_RELEASE" ; \
-		git push origin "v$$PROJECT_RELEASE"
-
+codeartifact-publish:
+	UV_PUBLISH_URL="https://${AWS_DOMAIN}-${AWS_ACCOUNT_ID}.d.codeartifact.${AWS_REGION}.amazonaws.com/pypi/${AWS_CODEARTIFACT_REPOSITORY}/" \
+	UV_PUBLISH_USERNAME=aws \
+	UV_PUBLISH_PASSWORD="$(AWS_CODEARTIFACT_TOKEN)" \
+	uv publish
