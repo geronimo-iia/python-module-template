@@ -17,12 +17,6 @@ Install this library directly into an activated virtual environment:
 $ pip install {{cookiecutter.github_repo}}
 ```
 
-or add it to your [Poetry](https://poetry.eustace.io/) project:
-
-```text
-$ poetry add {{cookiecutter.github_repo}}
-```
-
 ## Usage
 
 After installation, the package can imported:

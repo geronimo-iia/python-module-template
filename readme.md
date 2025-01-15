@@ -8,7 +8,7 @@ It utilizes popular libraries to fully automate all development and deployment t
 ## Features
 
 * Core:
-  * [poetry](https://python-poetry.org/) to rules them all
+  * [uv](https://docs.astral.sh/uv/) as depdencies manager
   * [pep-0518](https://www.python.org/dev/peps/pep-0518/) alias `pyproject.toml` for managing dependencies, package metadata, ...
 * Project tooling:
   * Formatting, Analysing with [ruff](https://github.com/charliermarsh/ruff)
@@ -20,7 +20,7 @@ It utilizes popular libraries to fully automate all development and deployment t
     * 'package': launch an install/test/check on each push and pull request on 'main' branch.
     * 'release": on each tag push, launch:
       - a github release 
-      - a pypi publish . You have to configure a secret 'PYPI_TOKEN' in your git repository.
+      - a pypi publish . You have to add a Trusted Publisher to an existing PyPI project(https://docs.pypi.org/trusted-publishers/adding-a-publisher/).
       - a site documentation publication
   * [dependabot](https://github.com/dependabot) to manage dependencies updates.
 * Documentation:
@@ -28,6 +28,9 @@ It utilizes popular libraries to fully automate all development and deployment t
   * Building documentation with `mkdocs`
   * Auto generation of API reference
   * Expose with documentation site under 'gh-pages' branch per default.
+
+
+Until 2025/01/15, I use [poetry](https://python-poetry.org/) to rules them all. This work is still avalaible on `poetry`branch.
 
 
 ## About this project
@@ -70,6 +73,17 @@ In 2025, with the new release of poetry 2.0.0, I wanna make an update:
 - simplify workflow and makefile
 - update pyproject.toml declaration as our Python standard evolve :)
 
+Few weeks later, my mates show me [uv](https://docs.astral.sh/uv/). An extremely fast Python package and project manager, written in Rust.
+What I found very usefull:
+- it's fast to resolve and install dependencies
+- follow closely the pyproject.toml standardization
+- more simple to manage than poetry
+- you can handle complex dependencies nightmare https://docs.astral.sh/uv/concepts/resolution/, & see your dependencies tree...
+- you can develop localy with unreleased libraries
+- to build our library : we can use setuptools
+This tool still missing something like poetthepoet, but i hope that it could be integrated soon.
+So let's have a try !
+
 
 
 ## Usage
@@ -81,7 +95,7 @@ $ pip install cookiecutter
 $ cookiecutter gh:geronimo-iia/python-module-template -f
 ```
 
-or
+or using local clone and [uv](https://docs.astral.sh/uv/):
 
 ```
 git clone git@github.com:geronimo-iia/python-module-template.git
@@ -94,80 +108,62 @@ Cookiecutter will ask you for some basic info (your name, project name, python p
 
 Poe target list:
 
-| Name                    | Comment                                                                                  |
-| ----------------------- | ---------------------------------------------------------------------------------------- |
-| poetry poe check        | Run linters and static analysis                                                          |
-| poetry poe test         | Run unit tests                                                                           |
-| poetry poe build        | Builds the source and wheels archives (and run check & test target)                      |
-| poetry poe publish      | Publishes the package, previously built with the build command, to the remote repository |
-| poetry poe docs         | Builds  site documentation.                                                              |
-| poetry poe docs-publish | Build and publish site documentation.                                                    |
-| poetry poe clean        | Delete all generated and temporary files                                                 |
-| poetry poe requirements | Generate requirements.txt                                                                |
-|                         |                                                                                          |
+| Name             | Comment                                  |
+| ---------------- | ---------------------------------------- |
+| poe types        | Run the type checker                     |
+| poe lint         | Run linting tools on the code base       |
+| poe style        | Validate black code style                |
+| poe test         | Run unit tests                           |
+| poe check        | Run all checks on the code base          |
+| poe build        | Builds module                            |
+| poe publish      | Publishes the package                    |
+| poe docs         | Builds  site documentation.              |
+| poe docs-publish | Build and publish site documentation.    |
+| poe clean        | Delete all generated and temporary files |
+| poe requirements | Generate requirements.txt                |
+|                  |                                          |
 
-You could retrieve those commands with `poetry poe`. It will output something like this :
+You could retrieve those commands with `poe`. It will output something like this :
 
 ```
-Poe the Poet - A task runner that works well with poetry.
-version 0.25.0
+Usage:
+  poe [global options] task [task arguments]
 
-Result: No task specified.
+Global options:
+  -h, --help            Show this help page and exit
+  --version             Print the version and exit
+  -v, --verbose         Increase command output (repeatable)
+  -q, --quiet           Decrease command output (repeatable)
+  -d, --dry-run         Print the task contents but don't actually run it
+  -C PATH, --directory PATH
+                        Specify where to find the pyproject.toml
+  -e EXECUTOR, --executor EXECUTOR
+                        Override the default task executor
+  --ansi                Force enable ANSI output
+  --no-ansi             Force disable ANSI output
 
-USAGE
-  poetry poe [-h] [-v | -q] [--root PATH] [--ansi | --no-ansi] task [task arguments]
+Configured tasks:
+  types                 Run the type checker
+  lint                  Run linting tools on the code base
+  style                 Validate black code style
+  test                  Run unit tests
+  check                 Run all checks on the code base
+  build                 Build module
+  publish               Publish module
+  docs                  Build site documentation
+  docs-publish          Publish site documentation
+  clean                 Remove all generated and temporary files
+  requirements          Generate requirements.txt
 
-GLOBAL OPTIONS
-  -h, --help     Show this help page and exit
-  --version      Print the version and exit
-  -v, --verbose  Increase command output (repeatable)
-  -q, --quiet    Decrease command output (repeatable)
-  -d, --dry-run  Print the task contents but don't actually run it
-  --root PATH    Specify where to find the pyproject.toml
-  --ansi         Force enable ANSI output
-  --no-ansi      Force disable ANSI output
-
-CONFIGURED TASKS
-  build          Build module
-  publish        Publish module
-  check          Run Linter
-  test           Run unit tests
-  docs           Build site documentation
-  docs-publish   Publish site documentation
-  clean          Remove all generated and temporary files
-  requirements   Generate requirements.txt
 ```
 
 
 Make Target list:
 
-| Name                    | Comment                                                                                         |
-| ----------------------- | ----------------------------------------------------------------------------------------------- |
-| make install            | Install project dependencies                                                                    |
-| make configure          | Configure poetry                                                                                |
-| make tag                | Create and push a tag based on current project version. This will launch github release action. |
-| make next-patch-version | Increment patch version of the project.                                                         |
-|                         |                                                                                                 |
+| Name         | Comment                      |
+| ------------ | ---------------------------- |
+| make install | Install project dependencies |
+| make lock    | Lock project dependencies    |
+|              |                              |
 
-## Note on configuration of Poetry
-
-To configure poetry, you could use `make configure`or run :
-
-```bash
-# virtualenvs under project folder
-poetry config virtualenvs.in-project true
-
-# install needed plugins
-poetry self add poetry-plugin-export
-poetry self add 'poethepoet[poetry_plugin]'
-
-# update tooling
-poetry run python -m pip install --upgrade pip
-poetry run python -m pip install --upgrade setuptools
-```
-
-See also:
-
-- https://python-poetry.org/docs/#installation
-- https://poethepoet.natn.io/installation.html
 
