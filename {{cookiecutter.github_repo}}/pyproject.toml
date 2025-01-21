@@ -4,7 +4,8 @@ version = "{{cookiecutter.version}}"
 description = "{{cookiecutter.project_short_description}}"
 authors = [{ name = "{{cookiecutter.full_name}}", email = "{{cookiecutter.email}}" }]
 readme = "README.md"
-license = {file = "LICENSE.md"}
+license = "LICENSE.md"
+#license = {file = "LICENSE.md"} # setuptool bug
 keywords = []
 classifiers = [
     # update this list to match your application: https://pypi.org/pypi?%3Aaction=list_classifiers
