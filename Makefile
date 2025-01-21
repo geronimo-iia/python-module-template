@@ -18,10 +18,10 @@ install: lock ## Install project dependencies
 	uv venv
 	uv pip install -r pyproject.toml
 
-
+.PHONY: lock
 lock: pyproject.toml
 	uv lock
-	@touch $@
+
 
 
 # BUILD ########################################################################

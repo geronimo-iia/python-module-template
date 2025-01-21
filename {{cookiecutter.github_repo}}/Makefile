@@ -10,7 +10,7 @@ install: lock ## Install project dependencies
 	uv pip install -r pyproject.toml
 
 
-lock: pyproject.toml #codeartifact-index
+.PHONY: lock
+lock: pyproject.toml
 	uv lock
-	@touch $@
 
