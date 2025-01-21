@@ -4,7 +4,7 @@ version = "{{cookiecutter.version}}"
 description = "{{cookiecutter.project_short_description}}"
 authors = [{ name = "{{cookiecutter.full_name}}", email = "{{cookiecutter.email}}" }]
 readme = "README.md"
-license = "LICENSE.md"
+license = {text = "The MIT License (MIT)"}
 #license = {file = "LICENSE.md"} # setuptool bug
 keywords = []
 classifiers = [
@@ -46,7 +46,7 @@ dev =  [
     "xdoctest ~=1.2.0", # A rewrite of the builtin doctest module
     "coverage[toml] >= 7.6.10",
     "poethepoet >= 0.32.1",
-    "setuptools>=42",
+    "setuptools>=75",
 ]
 docs = [
     "mkdocs~= 1.6",
@@ -58,7 +58,7 @@ docs = [
 
 [tool.setuptools]
 packages = ["{{cookiecutter.package_name}}"]
-
+license-files = []
 
 [tool.uv]
 {% if cookiecutter.use_package_mode == "Enabled" -%}
@@ -211,7 +211,7 @@ cmd = "uv pip compile pyproject.toml -o requirements.txt "
 capture_stdout = "requirements.txt"
 
 [build-system]
-requires = ["setuptools>=42"]
+requires = ["setuptools>=75"]
 build-backend = "setuptools.build_meta"
 
 
