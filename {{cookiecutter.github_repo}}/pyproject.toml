@@ -57,8 +57,12 @@ docs = [
 ]
 
 [tool.setuptools]
-packages = ["{{cookiecutter.package_name}}"]
 license-files = []
+
+[tool.setuptools.packages.find]
+include = ["{{cookiecutter.package_name}}*"]
+namespaces = false
+
 
 [tool.uv]
 {% if cookiecutter.use_package_mode == "Enabled" -%}
