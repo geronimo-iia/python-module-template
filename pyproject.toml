@@ -36,7 +36,7 @@ docs = [
     "mkdocs-include-markdown-plugin >= 7.1.2",
     "mkdocstrings[python] ~= 0.27",
     "mkdocs-material == 9.*",
-    "mkdocs-include-markdown-plugin ~= 7.1.2"
+    "mkdocs-include-markdown-plugin ~= 7.2.0"
 ]
 
 [tool.uv]
