@@ -28,13 +28,13 @@ dependencies = ["cookiecutter"]
 
 [dependency-groups]
 dev =  [
-    "poethepoet >= 0.32.1",
-    "setuptools>=42",
+    "poethepoet >= 0.37.0",
+    "setuptools>=82.0.1",
 ]
 docs = [
     "mkdocs~= 1.6",
     "mkdocs-include-markdown-plugin >= 7.1.2",
-    "mkdocstrings[python] ~= 0.27",
+    "mkdocstrings[python] ~= 0.30",
     "mkdocs-material == 9.*",
     "mkdocs-include-markdown-plugin ~= 7.2.0"
 ]
@@ -63,5 +63,5 @@ cmd = "uv pip compile pyproject.toml -o requirements.txt "
 capture_stdout = "requirements.txt"
 
 [build-system]
-requires = ["setuptools>=42"]
+requires = ["setuptools>=82.0.1"]
 build-backend = "setuptools.build_meta"
